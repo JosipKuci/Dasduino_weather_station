@@ -11,7 +11,10 @@
 #define POST_REQUEST_SENDER_H
 #include <WiFi.h>
 #include <HTTPClient.h>
+
 void post_request_sender_initialize_wifi();
 void post_request_send_data(String sensor_data);
 String post_request_get_wifi_status();
+
+
 #endif

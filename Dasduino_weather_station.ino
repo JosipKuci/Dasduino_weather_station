@@ -10,6 +10,7 @@
 #include "oled_display.h"
 #include "bme280_sensor.h"
 #include "post_request_sender.h"
+#include "ntp.h"
 #define PRESCALER 80 //Prescaler which is divided by the timer clock cycle
 #define REFRESHES_BEFORE_POST_REQUEST 10 //How many times should the screen refresh before sending a POST request
 hw_timer_t *Timer0_Cfg = NULL; //Instance of a pointer to the hardware timer we'll use for an interrupt
@@ -51,6 +52,8 @@ void setup() {
   bme280_initialize();
   oled_display_initialize();
   Timer0_interrupt_initialize();
+  ntp_initialize();
+  ntp_get_current_time();
 }
 
 
@@ -58,6 +61,7 @@ void loop() {
   if(doesUpdateOled) //Check if interrupt was triggered
   {
     doesUpdateOled = false;
+    ntp_increment_offline();
     values_as_string = bme280_sensor_get_readings_as_string();
     oled_display_values_on_screen(values_as_string);
     oled_refresh_counter++;

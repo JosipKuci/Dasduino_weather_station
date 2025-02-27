@@ -10,18 +10,20 @@
 #include "post_request_sender.h"
 
 //Define the network you wish to use
-const char* ssid = "ENTER_YOUR_SSID_HERE";
-const char* password = "ENTER_YOUR_PASSWORD_HERE";
+const char* ssid = "Xiaomi 13 Lite";
+const char* password = "asdqwe12345";
 
 HTTPClient http;
 
 //Define the url where the POST request will be made
-String serverName = "ENTER_URL_WHERE_REQUEST_WILL_BE_SENT_HERE";
+String serverName = "https://webhook.site/6ae6a373-6ebf-48eb-8a5b-a07ddeb5bc78";
+
 
 void post_request_sender_initialize_wifi()
 {
   WiFi.begin(ssid, password); //Initializes the WiFi library's network settings and provides the current status.
 }
+
 
 void post_request_send_data(String sensor_data)
 {
@@ -58,5 +60,6 @@ String post_request_get_wifi_status()
       return "Unknown";
   }
 }
+
 
 

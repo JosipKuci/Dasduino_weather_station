@@ -10,6 +10,7 @@
 #ifndef BME280_SENSOR_H
 #define BME280_SENSOR_H
 #include <BME280-SOLDERED.h>
+#include "ntp.h"
 String bme280_sensor_get_readings_as_string();
 void bme280_initialize();
 #endif

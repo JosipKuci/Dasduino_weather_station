@@ -29,6 +29,8 @@ void bme280_sensor_get_readings()
   bme280.readSensorData(temperature,humidity,pressure);//Reads the sensor value of the temperature, humidity and pressure sensor and converts it to C,%,hPa respectively
 
   temperature+=offset;//We add the user defined offset to the temperature
+
+  add_reading_to_analytics_sum(temperature, humidity, pressure);
 }
 
 //Checks values of sensor data, returns false if there is an invalid reading, true if readings are fine
