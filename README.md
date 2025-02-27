@@ -5,6 +5,7 @@ A weather station made using the Dasuino CONNECTPLUS (ESP32) board, BME280 senso
 -Read data from sensor at a user-specified amount (by default every 3s)  
 -Display the sensor data onto the OLED display  
 -Every 10 screen refreshes, send a POST request to a user-specified url (by default every 30s)  
+-Send analytics data for the average sensor values every hour to the server via POST request
 
 ## How to set up
 
@@ -17,6 +18,7 @@ All of the libraries were imported by downloading them from their respective rep
 Used libraries:  
 [Soldered OLED Display Arduino Library](https://github.com/SolderedElectronics/Soldered-OLED-Display-Arduino-Library/tree/main)  
 [Soldered BME280 and BME680 EasyC Arduino library](https://github.com/SolderedElectronics/Soldered-BME280-BME680-Gas-Sensor-Arduino-Library/tree/main)  
+[NTPClient](https://github.com/taranais/NTPClient)
 
 Libraries used that are already included with the Arduino IDE:  
 [WiFi](https://github.com/arduino-libraries/WiFi)  
