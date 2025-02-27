@@ -41,7 +41,13 @@ You can also change the interval when data is being fetched/displayed by changin
 ```c
   const long interrupt_period = 3000000; //How many times timer should increment before triggering interrupt, currently 3 seconds
 ```
-Intervals can also be modified by changing the PRESCALER macro in the same file, learn more about ESP32 Timer interrupts here: [ESP32 Timers & Timer Interrupt Tutorial (Arduino IDE)](https://deepbluembedded.com/esp32-timers-timer-interrupt-tutorial-arduino-ide/)
+Intervals can also be modified by changing the PRESCALER macro in the same file, see more about ESP32 Timer interrupts here: [ESP32 Timers & Timer Interrupt Tutorial (Arduino IDE)](https://deepbluembedded.com/esp32-timers-timer-interrupt-tutorial-arduino-ide/)
+
+The number of OLED refreshes before a POST request can also be changed by changing the REFRESHES_BEFORE_POST_REQUEST macro:  
+
+```c
+  #define REFRESHES_BEFORE_POST_REQUEST 10 //How many times should the screen refresh before sending a POST request
+```
 
 ## Output
 Every time the sensor data is read, it is formatted into a string like this:
