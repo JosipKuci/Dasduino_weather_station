@@ -10,13 +10,13 @@
 #include "post_request_sender.h"
 
 //Define the network you wish to use
-const char* ssid = "Xiaomi 13 Lite";
-const char* password = "asdqwe12345";
+const char* ssid = "ENTER_YOUR_SSID_HERE";
+const char* password = "ENTER_NETWORK_PASSWORD_HERE";
 
 HTTPClient http;
 
 //Define the url where the POST request will be made
-String serverName = "https://webhook.site/6ae6a373-6ebf-48eb-8a5b-a07ddeb5bc78";
+String serverName = "ENTER_URL_TO_SEND_REQUEST_TO_HERE";
 
 
 void post_request_sender_initialize_wifi()
