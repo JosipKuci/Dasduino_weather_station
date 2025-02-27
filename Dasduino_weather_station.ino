@@ -11,6 +11,7 @@
 #include "bme280_sensor.h"
 #include "post_request_sender.h"
 #define PRESCALER 80 //Prescaler which is divided by the timer clock cycle
+#define REFRESHES_BEFORE_POST_REQUEST 10 //How many times should the screen refresh before sending a POST request
 hw_timer_t *Timer0_Cfg = NULL; //Instance of a pointer to the hardware timer we'll use for an interrupt
 
 const long interrupt_period = 3000000; //How many times timer should increment before triggering interrupt, currently 3 seconds
@@ -60,7 +61,7 @@ void loop() {
     values_as_string = bme280_sensor_get_readings_as_string();
     oled_display_values_on_screen(values_as_string);
     oled_refresh_counter++;
-    if(oled_refresh_counter>=10) //If display has been refreshed 10 times, also send POST request to server
+    if(oled_refresh_counter>=REFRESHES_BEFORE_POST_REQUEST) //If display has been refreshed 10 times send POST request to server
     {
       post_request_send_data(values_as_string);
       oled_refresh_counter=0; //Reset the refresh counter after sending
