@@ -9,6 +9,8 @@
 #ifndef ANALYTICS_H
 #define ANALYTICS_H
 #include "post_request_sender.h"
+#include <ArduinoJson.h>
+#include <ArduinoJson.hpp>
 void send_analytics();
 void add_reading_to_analytics_sum(float temperature, float humidity, float pressure);
 #endif

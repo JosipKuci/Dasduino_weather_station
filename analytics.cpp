@@ -21,7 +21,7 @@ void reset_analytics_values()
 }
 
 /*Calculates average temerature, humidity and pressure by dividing the sums with the number of readings
-  formats them into a string and sends the values as a POST request */
+  formats them into a json object that we serialize into a string and send the values as a POST request */
 void send_analytics()
 {
   String formatted_analytics;
@@ -30,7 +30,13 @@ void send_analytics()
     float average_temp=temp_sum/num_of_readings;
     float average_humi = humi_sum/num_of_readings;
     float average_press = press_sum/num_of_readings;
-    formatted_analytics="Average values for last hour:\n Temperature: " + String(average_temp)+" C \n Humidity: " + String(average_humi)+" % \n Pressure: " + String(average_press) + "hPa";
+    
+    StaticJsonDocument<4> json_data;
+    json_data["Type"]="Average values for last hour";
+    json_data["Average Temperature"]=average_temp;
+    json_data["Average Humidity"]=average_humi;
+    json_data["Average Pressure"]=average_press;
+    serializeJson(json_data, formatted_analytics); //Writes the json object into the formatted_analytics string
     post_request_send_data(formatted_analytics);
   }
   reset_analytics_values();

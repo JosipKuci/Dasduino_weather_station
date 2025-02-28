@@ -11,6 +11,9 @@
 #define BME280_SENSOR_H
 #include <BME280-SOLDERED.h>
 #include "ntp.h"
+#include <ArduinoJson.h>
+#include <ArduinoJson.hpp>
 String bme280_sensor_get_readings_as_string();
+String bme280_sensor_get_readings_as_json();
 void bme280_initialize();
 #endif

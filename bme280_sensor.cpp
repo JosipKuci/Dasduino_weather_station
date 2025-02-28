@@ -74,3 +74,25 @@ String bme280_sensor_get_readings_as_string()
   }
   return formatted_data;
 }
+
+/*Takes a new reading and formats it as a json object,
+  Then converts it into a string that follows json format
+  (Could have just written a string that follows json format, 
+    but I personally found this way much more readable)*/
+String bme280_sensor_get_readings_as_json()
+{
+  StaticJsonDocument<4> json_data;
+  if(bme280_sensor_check_connection())
+  {
+    json_data["Temperature"]=temperature;
+    json_data["Pressure"]=pressure;
+    json_data["Humidity"]=humidity;
+  }
+  else
+  {
+    json_data["error"]="Bad sensor readings, check connection";
+  }
+  String serialized_json;
+  serializeJson(json_data, serialized_json); //Writes the json object into the serialized_json string
+  return serialized_json;
+}

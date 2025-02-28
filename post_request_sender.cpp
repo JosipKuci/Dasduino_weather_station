@@ -11,12 +11,12 @@
 
 //Define the network you wish to use
 const char* ssid = "ENTER_YOUR_SSID_HERE";
-const char* password = "ENTER_NETWORK_PASSWORD_HERE";
+const char* password = "ENTER_YOUR_PASSWORD_HERE";
 
 HTTPClient http;
 
 //Define the url where the POST request will be made
-String serverName = "ENTER_URL_TO_SEND_REQUEST_TO_HERE";
+String serverName = "ENTER_URL_WHERE_REQUEST_WILL_BE_SENT_HERE";
 
 
 void post_request_sender_initialize_wifi()
@@ -30,7 +30,7 @@ void post_request_send_data(String sensor_data)
   if(WiFi.status()==WL_CONNECTED) //Check if the WiFi is connected before attempting to send a request
   {
     http.begin(serverName);//Opens port 80 for TCP communication and tries to make connection with server
-    http.addHeader("Content-Type", "text/plain"); //Adds what content type we want to send in the request body
+    http.addHeader("Content-Type", "application/json"); //Adds what content type we want to send in the request body
     int httpResponseCode = http.POST(sensor_data); //Send a post request to the server and save responce code in variable
     Serial.println("HTTP:"+String(httpResponseCode));//Print the response to the serial monitor
     http.end(); // After the payload, closes the TCP connection
