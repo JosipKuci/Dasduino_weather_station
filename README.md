@@ -18,7 +18,8 @@ All of the libraries were imported by downloading them from their respective rep
 Used libraries:  
 [Soldered OLED Display Arduino Library](https://github.com/SolderedElectronics/Soldered-OLED-Display-Arduino-Library/tree/main)  
 [Soldered BME280 and BME680 EasyC Arduino library](https://github.com/SolderedElectronics/Soldered-BME280-BME680-Gas-Sensor-Arduino-Library/tree/main)  
-[NTPClient](https://github.com/taranais/NTPClient)
+[NTPClient](https://github.com/taranais/NTPClient)  
+[ArduinoJson](https://github.com/bblanchon/ArduinoJson)  
 
 Libraries used that are already included with the Arduino IDE:  
 [WiFi](https://github.com/arduino-libraries/WiFi)  
@@ -51,6 +52,10 @@ The number of OLED refreshes before a POST request can also be changed by changi
   #define REFRESHES_BEFORE_POST_REQUEST 10 //How many times should the screen refresh before sending a POST request
 ```
 
+
+### NTP Client
+The Network time protocol is used to get accurate datetime data,however the UDP connection is knwn to fail at startup, so multiple board resets are sometimes needed when turning it on.
+
 ## Output
 Every time the sensor data is read, it is formatted into a string like this:
 ```
@@ -72,6 +77,26 @@ The display adds an extra line which shows the currents status of the Wifi conne
 
   WiFi stat: Connected
 ```
+The POST request is sent in a JSON format like this:
+```
+{
+  "Temperature": 24.88,
+  "Pressure": 1012.37,
+  "Humidity": 35.57
+}
+```
+
+Analytics are sent every hour via POST request in the form:
+```
+{
+  "Type": "Average values for last hour",
+  "Average Temperature": 23.789,
+  "Average Humidity": 37.958,
+  "Average Pressure": 1012.124
+}
+```
+
+
 
 ## Error handling & Debugging
 ### OLED Display
