@@ -63,6 +63,7 @@ void loop() {
     oled_refresh_counter++;
     if(oled_refresh_counter>=REFRESHES_BEFORE_POST_REQUEST) //If display has been refreshed 10 times send POST request to server
     {
+      values_as_string=bme280_sensor_get_readings_as_json();
       post_request_send_data(values_as_string);
       oled_refresh_counter=0; //Reset the refresh counter after sending
     }

@@ -17,6 +17,7 @@ All of the libraries were imported by downloading them from their respective rep
 Used libraries:  
 [Soldered OLED Display Arduino Library](https://github.com/SolderedElectronics/Soldered-OLED-Display-Arduino-Library/tree/main)  
 [Soldered BME280 and BME680 EasyC Arduino library](https://github.com/SolderedElectronics/Soldered-BME280-BME680-Gas-Sensor-Arduino-Library/tree/main)  
+[ArduinoJson](https://github.com/bblanchon/ArduinoJson)
 
 Libraries used that are already included with the Arduino IDE:  
 [WiFi](https://github.com/arduino-libraries/WiFi)  
@@ -58,7 +59,6 @@ Every time the sensor data is read, it is formatted into a string like this:
 
   Humidity: xx.xx %
 ```
-Data is sent like that in the POST request as a text/plain content type.
 
 The display adds an extra line which shows the currents status of the Wifi connection, for example:
 ```
@@ -70,6 +70,17 @@ The display adds an extra line which shows the currents status of the Wifi conne
 
   WiFi stat: Connected
 ```
+
+The POST request is sent in a JSON format like this:
+```
+{
+  "Temperature": 24.88,
+  "Pressure": 1012.37,
+  "Humidity": 35.57
+}
+
+```
+The sensor data for the JSON format is taken seperately from a new reading
 
 ## Error handling & Debugging
 ### OLED Display
