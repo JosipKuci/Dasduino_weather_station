@@ -46,6 +46,12 @@ You can also change the interval when data is being fetched/displayed by changin
 ```
 Intervals can also be modified by changing the PRESCALER macro in the same file, see more about ESP32 Timer interrupts here: [ESP32 Timers & Timer Interrupt Tutorial (Arduino IDE)](https://deepbluembedded.com/esp32-timers-timer-interrupt-tutorial-arduino-ide/)
 
+**IMPORTANT: If you change the lenght of the interrupt period, make sure to change the incrementation of the INCREMENTATION_VALUE macro in file ntp.cpp here:**
+```c
+#define INCREMENTATION_VALUE 3 //IF YOU CHANGE THE INTERRUPT PERIOD, CHANGE THIS TO HOW MUCH SECONDS IT IS
+```
+
+
 The number of OLED refreshes before a POST request can also be changed by changing the REFRESHES_BEFORE_POST_REQUEST macro:  
 
 ```c
@@ -54,7 +60,11 @@ The number of OLED refreshes before a POST request can also be changed by changi
 
 
 ### NTP Client
-The Network time protocol is used to get accurate datetime data,however the UDP connection is knwn to fail at startup, so multiple board resets are sometimes needed when turning it on.
+The Network time protocol is used to get accurate datetime data, to make it more stable, we initialize it on the first POST request or when we establish a WiFi connection.  
+After initializing, the serial monitor will display the current datetime like so:
+```
+2024-02-27T16:00:13Z
+```  
 
 ## Output
 Every time the sensor data is read, it is formatted into a string like this:
