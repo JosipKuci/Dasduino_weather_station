@@ -7,11 +7,11 @@
  * @authors   Josip Šimun Kuči
  ***************************************************/
 #include "ntp.h"
-
+#define INCREMENTATION_VALUE 3 //IF YOU CHANGE THE INTERRUPT PERIOD, CHANGE THIS TO HOW MUCH SECONDS IT IS
 WiFiUDP ntpUDP;
 NTPClient timeClient(ntpUDP);
 
-int h,m,s;
+int h=-1,m=-1,s=-1;
 
 void ntp_initialize()
 {
@@ -20,26 +20,30 @@ void ntp_initialize()
 }
 
 
-//An offline time tracker so that we dont access the NTP server too often
+/*An offline time tracker so that we dont access the NTP server too often
+  IF YOU CHANGE INTERRUPT PERIOD YOU MUST CHANGE S VARIABLE INCREMENTATION*/
 void ntp_increment_offline()
 {
-  s+=3; //Since the interrupt is triggered every 3s, we increment the seconds like that also
-  if(s>59)
+  if(h!=-1 && m!=-1 && s!=-1)//Check if we made an NTP connection, if not dont keep track of clock
   {
-    m++;
-    s=s%60;
-    if(m>59)
+    s+=INCREMENTATION_VALUE; //Since the interrupt is triggered every 3s, we increment the seconds like that also
+    if(s>59)
     {
-      h++;
-      send_analytics(); //Send the data gathered every hour
-      m=0;
-      if(post_request_get_wifi_status()=="Connected")
+      m++;
+      s=s%60;
+      if(m>59)
       {
-      }
-      if(h>23)
-      {
-        h=0;
-        ntp_get_current_time(); //We get the time from the server every day for precision (if we are currently connected to WiFi)
+        h++;
+        send_analytics(); //Send the data gathered every hour
+        m=0;
+        if(post_request_get_wifi_status()=="Connected")
+        {
+        }
+        if(h>23)
+        {
+          h=0;
+          ntp_get_current_time(); //We get the time from the server every day for precision (if we are currently connected to WiFi)
+        }
       }
     }
   }

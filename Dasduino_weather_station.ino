@@ -19,6 +19,8 @@ const long interrupt_period = 3000000; //How many times timer should increment b
 
 volatile bool doesUpdateOled = false; //Boolean that decides if we should refresh the data displayed
 
+bool has_gotten_NTP_reading=false; //Check if NTP has already gotten first reading
+
 int oled_refresh_counter=0; //Count how many times we have refreshed the OLED display
 
 String values_as_string; //Holds formatted data of the sensor readings
@@ -52,8 +54,6 @@ void setup() {
   bme280_initialize();
   oled_display_initialize();
   Timer0_interrupt_initialize();
-  ntp_initialize();
-  ntp_get_current_time();
 }
 
 
@@ -65,11 +65,21 @@ void loop() {
     values_as_string = bme280_sensor_get_readings_as_string();
     oled_display_values_on_screen(values_as_string);
     oled_refresh_counter++;
+
     if(oled_refresh_counter>=REFRESHES_BEFORE_POST_REQUEST) //If display has been refreshed 10 times send POST request to server
     {
       values_as_string=bme280_sensor_get_readings_as_json();
       post_request_send_data(values_as_string);
       oled_refresh_counter=0; //Reset the refresh counter after sending
+
+      /*Check if this is the first post request or the wifi has been established, if it is get values from NTP server
+      (we fo this to give the UDP connection more time to initialize)*/
+      if(!has_gotten_NTP_reading && post_request_get_wifi_status()=="Connected") 
+      {
+        ntp_initialize();
+        ntp_get_current_time();
+        has_gotten_NTP_reading=true;
+      }
     }
   }
 }
